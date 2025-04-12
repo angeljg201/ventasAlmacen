@@ -1,5 +1,4 @@
 <?php 
-	
 	require_once "clases/Conexion.php";
 	$obj= new conectar();
 	$conexion=$obj->conexion();
@@ -12,7 +11,6 @@
 	}
  ?>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +18,10 @@
 	<link rel="stylesheet" type="text/css" href="librerias/bootstrap/css/bootstrap.css">
 	<script src="librerias/jquery-3.2.1.min.js"></script>
 	<script src="js/funciones.js"></script>
-
+	<script src="librerias/alertifyjs/alertify.js"></script>
+	<script src="librerias/alertifyjs/alertify.min.js"></script>
+	<link rel="stylesheet" href="librerias/alertifyjs/css/alertify.css">
+	<link rel="stylesheet" href="librerias/alertifyjs/css/themes/default.css">
 </head>
 <body style="background-color: gray">
 	<br><br><br>
@@ -57,29 +58,26 @@
 	$(document).ready(function(){
 		$('#registro').click(function(){
 
-			vacios=validarFormVacio('frmRegistro');
+			vacios = validarFormVacio('frmRegistro');
 
 			if(vacios > 0){
-				alert("Debes llenar todos los campos!!");
+				alertify.alert('Error', 'Debes llenar todos los campos!!');
 				return false;
 			}
 
-			datos=$('#frmRegistro').serialize();
+			datos = $('#frmRegistro').serialize();
 			$.ajax({
-				type:"POST",
-				data:datos,
-				url:"procesos/regLogin/registrarUsuario.php",
-				success:function(r){
-					alert(r);
-
-					if(r==1){
-						alert("Agregado con exito");
+				type: "POST",
+				data: datos,
+				url: "procesos/regLogin/registrarUsuario.php",
+				success: function(r) {
+					if(r == 1){
+						alertify.success('Agregado con éxito');
 					}else{
-						alert("Fallo al agregar :(");
+						alertify.error('Fallo al agregar :(');
 					}
 				}
 			});
 		});
 	});
 </script>
-

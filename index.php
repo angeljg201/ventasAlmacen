@@ -1,5 +1,4 @@
 <?php 
-	
 	require_once "clases/Conexion.php";
 	$obj= new conectar();
 	$conexion=$obj->conexion();
@@ -12,7 +11,6 @@
 	}
  ?>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +18,10 @@
 	<link rel="stylesheet" type="text/css" href="librerias/bootstrap/css/bootstrap.css">
 	<script src="librerias/jquery-3.2.1.min.js"></script>
 	<script src="js/funciones.js"></script>
+	<script src="librerias/alertifyjs/alertify.js"></script>
+	<script src="librerias/alertifyjs/alertify.min.js"></script>
+	<link rel="stylesheet" href="librerias/alertifyjs/css/alertify.css">
+	<link rel="stylesheet" href="librerias/alertifyjs/css/themes/default.css">
 </head>
 <body style="background-color: gray">
 	<br><br><br>
@@ -57,27 +59,33 @@
 	$(document).ready(function(){
 		$('#entrarSistema').click(function(){
 
-		vacios=validarFormVacio('frmLogin');
+			// Validar si los campos están vacíos
+			vacios = validarFormVacio('frmLogin');
 
 			if(vacios > 0){
-				alert("Debes llenar todos los campos!!");
+				// Usar Alertify.js para mostrar un mensaje de error si hay campos vacíos
+				alertify.alert('Error', 'Debes llenar todos los campos!!');
 				return false;
 			}
 
-		datos=$('#frmLogin').serialize();
-		$.ajax({
-			type:"POST",
-			data:datos,
-			url:"procesos/regLogin/login.php",
-			success:function(r){
+			// Recoger los datos del formulario
+			datos = $('#frmLogin').serialize();
 
-				if(r==1){
-					window.location="vistas/inicio.php";
-				}else{
-					alert("No se pudo acceder :(");
+			// Enviar los datos via AJAX
+			$.ajax({
+				type: "POST",
+				data: datos,
+				url: "procesos/regLogin/login.php",
+				success: function(r){
+					if(r == 1){
+						// Redirigir a la página de inicio si el login es exitoso
+						window.location = "vistas/inicio.php";
+					}else{
+						// Usar Alertify.js para mostrar un mensaje de error si el login falla
+						alertify.error('No se pudo acceder :(');
+					}
 				}
-			}
+			});
 		});
-	});
 	});
 </script>
